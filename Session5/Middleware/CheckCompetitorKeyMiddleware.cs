@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
-using System.Net;
+﻿using System.Net;
 using System.Text.Json;
 
 namespace Session5.Middleware
@@ -27,7 +25,7 @@ namespace Session5.Middleware
                     var value = httpContext.Request.Headers["CompetitorKey"];
                     if (value != _configuration.GetSection("CompetitorKey").Value)
                     {
-                        throw new Exception("Wrong CompetitoKey value", new Exception("Please check headers at your requests"));
+                        throw new Exception("Wrong 'CompetitonKey' value", new Exception("Please check headers at your requests"));
                     }
                 }
                 await _next(httpContext);
