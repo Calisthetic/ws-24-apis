@@ -1,11 +1,13 @@
 using Session5.Middleware;
 using Session5.Models.Db;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+//builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c => { c.EnableAnnotations(); });
@@ -26,6 +28,14 @@ builder.Services.AddCors(options =>
             policy.WithOrigins("http://localhost:3000", "*").AllowAnyHeader().AllowAnyMethod();
         });
 });
+
+
+// Response style
+builder.Services.AddControllersWithViews().AddJsonOptions(opt =>
+{
+    opt.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase; // null
+});
+
 
 var app = builder.Build();
 

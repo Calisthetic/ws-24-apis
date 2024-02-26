@@ -36,7 +36,8 @@ namespace Session5.Controllers
             {
                 return NotFound();
             }
-            return await _context.Medicines.Where(x => x.WarehouseId == WarehouseId).Select(x => new MedicineWithoutWirehouseDto(x)).ToListAsync();
+            return await _context.Medicines.Include(x => x.Warehouse).Include(x => x.Provider)
+                .Where(x => x.WarehouseId == WarehouseId).Select(x => new MedicineWithoutWirehouseDto(x)).ToListAsync();
         }
 
         /// <summary>
@@ -56,7 +57,8 @@ namespace Session5.Controllers
             {
                 return NotFound();
             }
-            return await _context.Medicines.Where(x => x.Quantity < 10).Select(x => new MedicineDto(x)).ToListAsync();
+            return await _context.Medicines.Include(x => x.Warehouse).Include(x => x.Provider)
+                .Where(x => x.Quantity < 100).Select(x => new MedicineDto(x)).ToListAsync();
         }
 
         /// <summary>

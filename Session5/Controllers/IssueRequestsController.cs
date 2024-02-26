@@ -36,7 +36,8 @@ namespace Session5.Controllers
             {
                 return NotFound();
             }
-            return await _context.IssueRequests.Select(x => new IssueRequestDto(x)).ToListAsync();
+            return await _context.IssueRequests.Include(x => x.Medicine).ThenInclude(x => x.Warehouse)
+                .Include(x => x.Medicine).ThenInclude(x => x.Provider).Select(x => new IssueRequestDto(x)).ToListAsync();
         }
 
         /// <summary>
@@ -59,7 +60,8 @@ namespace Session5.Controllers
             {
                 return NotFound();
             }
-            var issueRequest = await _context.IssueRequests.FindAsync(id);
+            var issueRequest = await _context.IssueRequests.Include(x => x.Medicine).ThenInclude(x => x.Warehouse)
+                .Include(x => x.Medicine).ThenInclude(x => x.Provider).FirstOrDefaultAsync(x => x.Id == id);
 
             if (issueRequest == null)
             {
